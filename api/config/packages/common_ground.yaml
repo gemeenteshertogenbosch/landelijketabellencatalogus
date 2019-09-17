@@ -8,6 +8,9 @@ parameters:
     common_ground.bag.apikey: 'e8a95365-3078-4b41-990a-e3de43cecd36'
 
 common_ground:      
+    #openoverheid:  
+        # Get your OPENOVERHEID api key at https://overheid.io   
+        #apikey: '%env(CONDUCTION_COMMONGROUND_OPENOVERHEID_APIKEY)%' 
     bag:
         # cashing is a common ground hot patato, from a data at the source perspective we don't want to duplicate data
         # but.... city and street names are not going to change regularly, so to prevent unnecessary api calls cashing makes sense

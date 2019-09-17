@@ -16,7 +16,7 @@ class Tabel38Repository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Tabel36::class);
+        parent::__construct($registry, Tabel38::class);
     }
 
     // /**

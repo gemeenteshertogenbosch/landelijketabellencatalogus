@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,7 +24,30 @@ use Doctrine\ORM\Mapping as ORM;
  *     		}
  *     },
  *     itemOperations={
- *     		"get"
+ *     		"get"={
+ *     			"method"="GET", 
+ *     			"path"="/tabel56/uuid/{id}",
+ *     			"swagger_context" = {"summary"="Haal Verblijfstitel op UUID", "description"="Beschrijving"}
+ *     		},
+ *     		"get_on_code"={
+ *     			"method"="GET", 
+ *     			"path"="/tabel56/{code}",
+ *     			"requirements"={"code"="\d+"}, 
+ *     			"swagger_context" = {
+ *     				"summary"="Haal Verblijfstitel op code", 
+ *     				"description"="Beschrijving",
+ *                  "parameters" = {
+ *                      {
+ *                          "name" = "code",
+ *                          "in" = "path",
+ *                          "description" = "De Verblijfstitel code waarop wordt gezocht",
+ *                          "required" = "true",
+ *                          "type" : "string",
+ *                          "example" : "0001"
+ *                      }
+ *                  }
+ *     			}
+ *     		}
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\Tabel56Repository")
@@ -46,6 +70,7 @@ class Tabel56
      * 
      * @var string 
      * 
+     * @ApiFilter(SearchFilter::class, strategy="exact")
      * @Groups({"read"})
      * @Assert\Length(
      *      max = 255,
@@ -59,6 +84,7 @@ class Tabel56
 	 *
 	 * @var string
 	 *
+     * @ApiFilter(SearchFilter::class, strategy="partial")
 	 * @Groups({"read"})
 	 * @Assert\Length(
 	 *      max = 255,

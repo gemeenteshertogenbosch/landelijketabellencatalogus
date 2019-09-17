@@ -6,12 +6,13 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Tabel 33 bevat gemeente nummers zo als vastgesteld door
+ * Gemeentecodes
  * 
  * @ApiResource(
  *     normalizationContext={"groups"={"read"}},
@@ -20,22 +21,32 @@ use Doctrine\ORM\Mapping as ORM;
  *     		"get"={
  *     			"method"="GET",
  *     			"path"="/tabel33"
- *     		},
- *     		"get_on_nationaliteitcode"={
- *     			"method"="GET", 
- *     			"path"="/tabel33/{gemeentecode}",
- *     			"requirements"={"gemeentecode"="\d+"}, 
- *     			"swagger_context" = {
- *     				"summary"="Haal Gemeente op code", 
- *     				"description"="Beschrijving"
- *     			}
- *     		},
+ *     		}
  *     },
  *     itemOperations={
  *     		"get"={
  *     			"method"="GET", 
  *     			"path"="/tabel33/uuid/{id}",
  *     			"swagger_context" = {"summary"="Haal Gemeente op UUID", "description"="Beschrijving"}
+ *     		},
+ *     		"get_on_code"={
+ *     			"method"="GET", 
+ *     			"path"="/tabel33/{code}",
+ *     			"requirements"={"code"="\d+"}, 
+ *     			"swagger_context" = {
+ *     				"summary"="Haal Gemeente op code", 
+ *     				"description"="Beschrijving",
+ *                  "parameters" = {
+ *                      {
+ *                          "name" = "code",
+ *                          "in" = "path",
+ *                          "description" = "De Gemeentecode waarop wordt gezocht",
+ *                          "required" = "true",
+ *                          "type" : "string",
+ *                          "example" : "0001"
+ *                      }
+ *                  }
+ *     			}
  *     		}
  *     }
  * )
@@ -59,6 +70,7 @@ class Tabel33
      * 
      * @var string 
      * 
+     * @ApiFilter(SearchFilter::class, strategy="exact")
      * @Groups({"read"})
      * @Assert\Length(
      *      min = 4,
@@ -73,6 +85,7 @@ class Tabel33
      * 
      * @var string 
      * 
+     * @ApiFilter(SearchFilter::class, strategy="partial")
      * @Groups({"read"})
      * @Assert\Length(
      *      max = 255,

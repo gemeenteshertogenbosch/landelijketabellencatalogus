@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,7 +24,11 @@ use Doctrine\ORM\Mapping as ORM;
  *     		}
  *     },
  *     itemOperations={
- *     		"get"
+ *     		"get"={
+ *     			"method"="GET", 
+ *     			"path"="/tabel36/uuid/{id}",
+ *     			"swagger_context" = {"summary"="Haal Voorvoegsel op UUID", "description"="Beschrijving"}
+ *     		}
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\Tabel36Repository")
@@ -46,6 +51,7 @@ class Tabel36
      * 
      * @var string 
      * 
+     * @ApiFilter(SearchFilter::class, strategy="partial")
      * @Groups({"read"})
      * @Assert\Length(
      *      max = 255,

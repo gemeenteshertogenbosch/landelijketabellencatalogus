@@ -6,11 +6,15 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * 
+ * Nationaliteitcodes
+ * 
  * @ApiResource(
  *     normalizationContext={"groups"={"read"}},
  *     denormalizationContext={"groups"={"write"}},
@@ -18,22 +22,32 @@ use Doctrine\ORM\Mapping as ORM;
  *     		"get"={
  *     			"method"="GET",
  *     			"path"="/tabel32"
- *     		},
- *     		"get_on_nationaliteitcode"={
- *     			"method"="GET", 
- *     			"path"="/tabel32/{nationaliteitcode}",
- *     			"requirements"={"nationaliteitcode"="\d+"}, 
- *     			"swagger_context" = {
- *     				"summary"="Haal Nationaliteitcode op code", 
- *     				"description"="Beschrijving"
- *     			}
- *     		},
+ *     		}
  *     },
  *     itemOperations={
  *     		"get"={
  *     			"method"="GET", 
  *     			"path"="/tabel32/uuid/{id}",
- *     			"swagger_context" = {"summary"="Haal Nationaliteitcode op UUID", "description"="Beschrijving"}
+ *     			"swagger_context" = {"summary"="Haal Nationaliteit op UUID", "description"="Beschrijving"}
+ *     		},
+ *     		"get_on_code"={
+ *     			"method"="GET", 
+ *     			"path"="/tabel32/{nationaliteitcode}",
+ *     			"requirements"={"nationaliteitcode"="\d+"}, 
+ *     			"swagger_context" = {
+ *     				"summary"="Haal Nationaliteit op code", 
+ *     				"description"="Beschrijving",
+ *                  "parameters" = {
+ *                      {
+ *                          "name" = "nationaliteitcode",
+ *                          "in" = "path",
+ *                          "description" = "De Nationaliteitcode waarop wordt gezocht",
+ *                          "required" = "true",
+ *                          "type" : "string",
+ *                          "example" : "0001"
+ *                      }
+ *                  }
+ *     			}
  *     		}
  *     }
  * )
@@ -57,6 +71,7 @@ class Tabel32
      * 
      * @var string 
      * 
+     * @ApiFilter(SearchFilter::class, strategy="exact")
      * @Groups({"read"})
      * @Assert\Length(
      *      min = 4,
@@ -71,6 +86,7 @@ class Tabel32
      * 
      * @var string 
      * 
+     * @ApiFilter(SearchFilter::class, strategy="partial")
      * @Groups({"read"})
      * @Assert\Length(
      *      max = 255,

@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +26,30 @@ use Doctrine\ORM\Mapping as ORM;
  *     		}
  *     },
  *     itemOperations={
- *     		"get"
+ *     		"get"={
+ *     			"method"="GET", 
+ *     			"path"="/rsin/uuid/{id}",
+ *     			"swagger_context" = {"summary"="Haal RSIN op UUID", "description"="Beschrijving"}
+ *     		},
+ *     		"get_on_rsin"={
+ *     			"method"="GET", 
+ *     			"path"="/rsin/{rsin}",
+ *     			"requirements"={"rsin"="\d+"}, 
+ *     			"swagger_context" = {
+ *     				"summary"="Haal RSIN op rsin", 
+ *     				"description"="Beschrijving",
+ *                  "parameters" = {
+ *                      {
+ *                          "name" = "rsin",
+ *                          "in" = "path",
+ *                          "description" = "De RSIN waarop wordt gezocht",
+ *                          "required" = "true",
+ *                          "type" : "string",
+ *                          "example" : "0001"
+ *                      }
+ *                  }
+ *     			}
+ *     		}
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\RSINRepository")
@@ -47,6 +71,7 @@ class RSIN
     /**   
      * @var string 
      * 
+     * @ApiFilter(SearchFilter::class, strategy="exact")
      * @Groups({"read"})
      * @Assert\Length(
      *      max = 9,
@@ -54,11 +79,36 @@ class RSIN
      * )
      * @ORM\Column(type="string", length=9)
      */
-    private $rsin;
+	private $rsin;
+	
+	/**
+	 * @var string
+	 *
+     * @ApiFilter(SearchFilter::class, strategy="exact")
+	 * @Groups({"read"})
+	 * @Assert\Length(
+	 *      max = 9,
+	 *      min = 9,
+	 * )
+	 * @ORM\Column(type="string", length=9)
+	 */
+	private $kvk;
+	
+	/**
+	 * @var string
+	 *
+	 * @Assert\Length(
+	 *      max = 9,
+	 *      min = 9,
+	 * )
+	 * @ORM\Column(type="string", length=9)
+	 */
+	private $openKvk;
 
     /**     
      * @var string 
      * 
+     * @ApiFilter(SearchFilter::class, strategy="exact")
      * @Groups({"read"})
      * @Assert\Length(
      *      max = 4,
@@ -68,7 +118,7 @@ class RSIN
      */
     private $gemeenteCode;
 
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }
@@ -82,6 +132,30 @@ class RSIN
     {
     	$this->rsin = $RSIN;
 
+        return $this;
+    }
+    
+    public function getKVK(): ?string
+    {
+        return $this->kvk;
+    }
+    
+    public function setKVK(string $kvk): self
+    {
+        $this->kvk = $kvk;
+        
+        return $this;
+    }
+    
+    public function getOpenKVK(): ?string
+    {
+        return $this->openKvk;
+    }
+    
+    public function setOpenKVK(string $openKvk): self
+    {
+        $this->openKvk = $openKvk;
+        
         return $this;
     }
 

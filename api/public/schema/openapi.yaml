@@ -1509,6 +1509,12 @@ components:
         rsin:
           readOnly: true
           type: string
+        kvk:
+          readOnly: true
+          type: string
+        open_kvk:
+          readOnly: true
+          type: string
         gemeente_code:
           readOnly: true
           type: string
