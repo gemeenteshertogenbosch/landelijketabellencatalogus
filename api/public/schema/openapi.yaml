@@ -1,95 +1,106 @@
 openapi: 3.0.2
 info:
-  title: 'Common Ground Component'
+  title: 'Tabellen Component'
   version: 0.0.1
   description: |
     Dit is een commonground voorbeeld applicatie 
           
-    Word lid van het slackkanaal [https://zaakonline.slack.com](https://zaakonline.slack.com) voor ondersteuning door het ontwikkel team. En krijg regelmatig updates over de ontwikkelingen op het gebied van de zaakonline componenten.
-            
-    Om het voor alle partijen zo makkelijk mogelijk te maken, stellen we zo veel mogelijk informatie over dit component openbaar beschikbaar.
-    - [datamodel als pdf](/schema/datamodel.pdf)
-    - [datamodel als mwb](/schema/datamodel.mwb)
-    - [codebase op github]()
-    - [codebase als zip](/archive/master.zip)
-    - [docker container](/) 
-    - [online demo]()
-            
-    
-    Applicaties kunnen op deze API alleen wijzigingen uitvoeren waarvoor zij over de juiste rechten(scopes) beschikken. De op deze api beschikbare scopes zijn:
-    - adres:schrijven
-    - adres:lezen
-    - adres:maken
-    - adres:verwijderen   
-                     
-    Voor het gebruik van deze applicatie is een JWT Token nodig, deze hangt altijd vast aan een applicatie, ofwel user. Geldige JWT Tokens worden aangemaakt bij het registreren van een applicatie en kennen een beperkte houdbaarheid. 
-    JWT Tokens kunnen zowel worden verlengd, als opnieuw worden aangevraagd, dit aan de hand van de applicatie id en sleutel.
-    Let er bij het meegeven van JWT tokens op dat deze moet worden voorafgegaan door een Bearer en een spatie, onder de header Authorization. De volledig naam wordt daarmee: 'Authorization: Bearer [TOKEN]'.
     
 paths:
-  /example_entities:
+  '/r_s_i_ns/{id}':
     get:
       tags:
-        - ExampleEntity
-      operationId: getExampleEntityCollection
-      summary: 'Retrieves the collection of ExampleEntity resources.'
+        - RSIN
+      operationId: getRSINItem
+      summary: 'Retrieves a RSIN resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         200:
-          description: 'ExampleEntity collection response'
+          description: 'RSIN resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RSIN-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/RSIN-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/RSIN-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RSIN-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/RSIN-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/RSIN-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/RSIN-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/RSIN-read'
+        404:
+          description: 'Resource not found'
+  /rsin:
+    get:
+      tags:
+        - RSIN
+      operationId: getRSINCollection
+      summary: 'Retrieves the collection of RSIN resources.'
+      responses:
+        200:
+          description: 'RSIN collection response'
           content:
             application/hal+json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ExampleEntity'
+                  $ref: '#/components/schemas/RSIN-read'
             application/ld+json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ExampleEntity'
+                  $ref: '#/components/schemas/RSIN-read'
             application/vnd.api+json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ExampleEntity'
+                  $ref: '#/components/schemas/RSIN-read'
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ExampleEntity'
+                  $ref: '#/components/schemas/RSIN-read'
             application/xml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ExampleEntity'
+                  $ref: '#/components/schemas/RSIN-read'
             application/x-yaml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ExampleEntity'
+                  $ref: '#/components/schemas/RSIN-read'
             text/csv:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ExampleEntity'
+                  $ref: '#/components/schemas/RSIN-read'
             text/html:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ExampleEntity'
+                  $ref: '#/components/schemas/RSIN-read'
       parameters:
-        -
-          name: like_name
-          in: query
-          required: false
-          schema:
-            type: string
-        -
-          name: like_description
-          in: query
-          required: false
-          schema:
-            type: string
         -
           name: page
           in: query
@@ -97,82 +108,70 @@ paths:
           description: 'The collection page number'
           schema:
             type: integer
-    post:
-      tags:
-        - ExampleEntity
-      operationId: postExampleEntityCollection
-      summary: 'Creates a ExampleEntity resource.'
-      responses:
-        201:
-          description: 'ExampleEntity resource created'
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/ExampleEntity'
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/ExampleEntity'
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/ExampleEntity'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExampleEntity'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/ExampleEntity'
-            application/x-yaml:
-              schema:
-                $ref: '#/components/schemas/ExampleEntity'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/ExampleEntity'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/ExampleEntity'
-          links:
-            GetExampleEntityItem:
-              parameters:
-                id: '$response.body#/id'
-              operationId: getExampleEntityItem
-              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /example_entities/{id}`.'
-        400:
-          description: 'Invalid input'
-        404:
-          description: 'Resource not found'
-      requestBody:
-        content:
-          application/hal+json:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          application/ld+json:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          application/vnd.api+json:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          application/x-yaml:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          text/csv:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          text/html:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-        description: 'The new ExampleEntity resource'
-  '/example_entities/{id}':
+  /tabel32:
     get:
       tags:
-        - ExampleEntity
-      operationId: getExampleEntityItem
-      summary: 'Retrieves a ExampleEntity resource.'
+        - Tabel32
+      operationId: getTabel32Collection
+      summary: 'Retrieves the collection of Tabel32 resources.'
+      responses:
+        200:
+          description: 'Tabel32 collection response'
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel32-read'
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel32-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel32-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel32-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel32-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel32-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel32-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel32-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+  '/tabel32/uuid/{id}':
+    get:
+      tags:
+        - Tabel32
+      operationId: getTabel32Item
+      summary: 'Retrieves a Tabel32 resource.'
       parameters:
         -
           name: id
@@ -182,56 +181,156 @@ paths:
             type: string
       responses:
         200:
-          description: 'ExampleEntity resource response'
+          description: 'Tabel32 resource response'
           content:
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel32-read'
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel32-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel32-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel32-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel32-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel32-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel32-read'
             text/html:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel32-read'
         404:
           description: 'Resource not found'
-    delete:
+  '/tabel32/{nationaliteitcode}':
+    get:
       tags:
-        - ExampleEntity
-      operationId: deleteExampleEntityItem
-      summary: 'Removes the ExampleEntity resource.'
+        - Tabel32
+      operationId: get_on_nationaliteitcodeTabel32Collection
+      summary: 'Retrieves the collection of Tabel32 resources.'
       responses:
-        204:
-          description: 'ExampleEntity resource deleted'
-        404:
-          description: 'Resource not found'
+        200:
+          description: 'Tabel32 collection response'
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel32-read'
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel32-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel32-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel32-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel32-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel32-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel32-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel32-read'
       parameters:
         -
-          name: id
-          in: path
-          required: true
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
           schema:
-            type: string
-    put:
+            type: integer
+  /tabel33:
+    get:
       tags:
-        - ExampleEntity
-      operationId: putExampleEntityItem
-      summary: 'Replaces the ExampleEntity resource.'
+        - Tabel33
+      operationId: getTabel33Collection
+      summary: 'Retrieves the collection of Tabel33 resources.'
+      responses:
+        200:
+          description: 'Tabel33 collection response'
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel33-read'
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel33-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel33-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel33-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel33-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel33-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel33-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel33-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+  '/tabel33/uuid/{id}':
+    get:
+      tags:
+        - Tabel33
+      operationId: getTabel33Item
+      summary: 'Retrieves a Tabel33 resource.'
       parameters:
         -
           name: id
@@ -241,68 +340,156 @@ paths:
             type: string
       responses:
         200:
-          description: 'ExampleEntity resource updated'
+          description: 'Tabel33 resource response'
           content:
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel33-read'
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel33-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel33-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel33-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel33-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel33-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel33-read'
             text/html:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
-        400:
-          description: 'Invalid input'
+                $ref: '#/components/schemas/Tabel33-read'
         404:
           description: 'Resource not found'
-      requestBody:
-        content:
-          application/hal+json:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          application/ld+json:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          application/vnd.api+json:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          application/x-yaml:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          text/csv:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          text/html:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-        description: 'The updated ExampleEntity resource'
-    patch:
+  '/tabel33/{gemeentecode}':
+    get:
       tags:
-        - ExampleEntity
-      operationId: patchExampleEntityItem
-      summary: 'Updates the ExampleEntity resource.'
+        - Tabel33
+      operationId: get_on_nationaliteitcodeTabel33Collection
+      summary: 'Retrieves the collection of Tabel33 resources.'
+      responses:
+        200:
+          description: 'Tabel33 collection response'
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel33-read'
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel33-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel33-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel33-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel33-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel33-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel33-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel33-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+  /tabel34:
+    get:
+      tags:
+        - Tabel34
+      operationId: getTabel34Collection
+      summary: 'Retrieves the collection of Tabel34 resources.'
+      responses:
+        200:
+          description: 'Tabel34 collection response'
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel34-read'
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel34-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel34-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel34-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel34-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel34-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel34-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel34-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+  '/tabel34/uuid/{id}':
+    get:
+      tags:
+        - Tabel34
+      operationId: getTabel34Item
+      summary: 'Retrieves a Tabel34 resource.'
       parameters:
         -
           name: id
@@ -312,81 +499,1261 @@ paths:
             type: string
       responses:
         200:
-          description: 'ExampleEntity resource updated'
+          description: 'Tabel34 resource response'
           content:
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel34-read'
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel34-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel34-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel34-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel34-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel34-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
+                $ref: '#/components/schemas/Tabel34-read'
             text/html:
               schema:
-                $ref: '#/components/schemas/ExampleEntity'
-        400:
-          description: 'Invalid input'
+                $ref: '#/components/schemas/Tabel34-read'
         404:
           description: 'Resource not found'
-      requestBody:
-        content:
-          application/hal+json:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          application/ld+json:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          application/vnd.api+json:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          application/x-yaml:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          text/csv:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-          text/html:
-            schema:
-              $ref: '#/components/schemas/ExampleEntity'
-        description: 'The updated ExampleEntity resource'
+  '/tabel34/{landcode}':
+    get:
+      tags:
+        - Tabel34
+      operationId: get_on_nationaliteitcodeTabel34Collection
+      summary: 'Retrieves the collection of Tabel34 resources.'
+      responses:
+        200:
+          description: 'Tabel34 collection response'
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel34-read'
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel34-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel34-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel34-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel34-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel34-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel34-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel34-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+  /tabel36:
+    get:
+      tags:
+        - Tabel36
+      operationId: getTabel36Collection
+      summary: 'Retrieves the collection of Tabel36 resources.'
+      responses:
+        200:
+          description: 'Tabel36 collection response'
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel36-read'
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel36-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel36-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel36-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel36-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel36-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel36-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel36-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+  '/tabel36s/{id}':
+    get:
+      tags:
+        - Tabel36
+      operationId: getTabel36Item
+      summary: 'Retrieves a Tabel36 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Tabel36 resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tabel36-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tabel36-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tabel36-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tabel36-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tabel36-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tabel36-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tabel36-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tabel36-read'
+        404:
+          description: 'Resource not found'
+  /tabel37:
+    get:
+      tags:
+        - Tabel37
+      operationId: getTabel37Collection
+      summary: 'Retrieves the collection of Tabel37 resources.'
+      responses:
+        200:
+          description: 'Tabel37 collection response'
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel37-read'
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel37-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel37-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel37-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel37-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel37-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel37-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel37-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+  '/tabel37s/{id}':
+    get:
+      tags:
+        - Tabel37
+      operationId: getTabel37Item
+      summary: 'Retrieves a Tabel37 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Tabel37 resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tabel37-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tabel37-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tabel37-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tabel37-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tabel37-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tabel37-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tabel37-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tabel37-read'
+        404:
+          description: 'Resource not found'
+  /tabel38:
+    get:
+      tags:
+        - Tabel38
+      operationId: getTabel38Collection
+      summary: 'Retrieves the collection of Tabel38 resources.'
+      responses:
+        200:
+          description: 'Tabel38 collection response'
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel38-read'
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel38-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel38-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel38-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel38-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel38-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel38-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel38-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+  '/tabel38s/{id}':
+    get:
+      tags:
+        - Tabel38
+      operationId: getTabel38Item
+      summary: 'Retrieves a Tabel38 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Tabel38 resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tabel38-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tabel38-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tabel38-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tabel38-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tabel38-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tabel38-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tabel38-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tabel38-read'
+        404:
+          description: 'Resource not found'
+  /tabel39:
+    get:
+      tags:
+        - Tabel39
+      operationId: getTabel39Collection
+      summary: 'Retrieves the collection of Tabel39 resources.'
+      responses:
+        200:
+          description: 'Tabel39 collection response'
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel39-read'
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel39-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel39-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel39-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel39-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel39-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel39-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel39-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+  '/tabel39s/{id}':
+    get:
+      tags:
+        - Tabel39
+      operationId: getTabel39Item
+      summary: 'Retrieves a Tabel39 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Tabel39 resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tabel39-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tabel39-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tabel39-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tabel39-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tabel39-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tabel39-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tabel39-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tabel39-read'
+        404:
+          description: 'Resource not found'
+  /tabel41:
+    get:
+      tags:
+        - Tabel41
+      operationId: getTabel41Collection
+      summary: 'Retrieves the collection of Tabel41 resources.'
+      responses:
+        200:
+          description: 'Tabel41 collection response'
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel41-read'
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel41-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel41-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel41-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel41-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel41-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel41-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel41-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+  '/tabel41s/{id}':
+    get:
+      tags:
+        - Tabel41
+      operationId: getTabel41Item
+      summary: 'Retrieves a Tabel41 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Tabel41 resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tabel41-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tabel41-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tabel41-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tabel41-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tabel41-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tabel41-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tabel41-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tabel41-read'
+        404:
+          description: 'Resource not found'
+  /tabel48:
+    get:
+      tags:
+        - Tabel48
+      operationId: getTabel48Collection
+      summary: 'Retrieves the collection of Tabel48 resources.'
+      responses:
+        200:
+          description: 'Tabel48 collection response'
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel48-read'
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel48-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel48-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel48-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel48-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel48-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel48-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel48-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+  '/tabel48s/{id}':
+    get:
+      tags:
+        - Tabel48
+      operationId: getTabel48Item
+      summary: 'Retrieves a Tabel48 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Tabel48 resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tabel48-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tabel48-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tabel48-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tabel48-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tabel48-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tabel48-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tabel48-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tabel48-read'
+        404:
+          description: 'Resource not found'
+  /tabel49:
+    get:
+      tags:
+        - Tabel49
+      operationId: getTabel49Collection
+      summary: 'Retrieves the collection of Tabel49 resources.'
+      responses:
+        200:
+          description: 'Tabel49 collection response'
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel49-read'
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel49-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel49-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel49-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel49-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel49-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel49-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel49-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+  '/tabel49s/{id}':
+    get:
+      tags:
+        - Tabel49
+      operationId: getTabel49Item
+      summary: 'Retrieves a Tabel49 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Tabel49 resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tabel49-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tabel49-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tabel49-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tabel49-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tabel49-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tabel49-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tabel49-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tabel49-read'
+        404:
+          description: 'Resource not found'
+  /tabel55:
+    get:
+      tags:
+        - Tabel55
+      operationId: getTabel55Collection
+      summary: 'Retrieves the collection of Tabel55 resources.'
+      responses:
+        200:
+          description: 'Tabel55 collection response'
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel55-read'
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel55-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel55-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel55-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel55-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel55-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel55-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel55-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+  '/tabel55s/{id}':
+    get:
+      tags:
+        - Tabel55
+      operationId: getTabel55Item
+      summary: 'Retrieves a Tabel55 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Tabel55 resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tabel55-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tabel55-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tabel55-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tabel55-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tabel55-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tabel55-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tabel55-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tabel55-read'
+        404:
+          description: 'Resource not found'
+  /tabel56:
+    get:
+      tags:
+        - Tabel56
+      operationId: getTabel56Collection
+      summary: 'Retrieves the collection of Tabel56 resources.'
+      responses:
+        200:
+          description: 'Tabel56 collection response'
+          content:
+            application/hal+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel56-read'
+            application/ld+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel56-read'
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel56-read'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel56-read'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel56-read'
+            application/x-yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel56-read'
+            text/csv:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel56-read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tabel56-read'
+      parameters:
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+  '/tabel56s/{id}':
+    get:
+      tags:
+        - Tabel56
+      operationId: getTabel56Item
+      summary: 'Retrieves a Tabel56 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Tabel56 resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tabel56-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tabel56-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tabel56-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tabel56-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tabel56-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tabel56-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tabel56-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tabel56-read'
+        404:
+          description: 'Resource not found'
 security:
   -
     apiKey: []
 components:
   schemas:
-    ExampleEntity:
+    RSIN-read:
+      type: object
+      description: RSIN
+      properties:
+        id:
+          readOnly: true
+          type: string
+        rsin:
+          readOnly: true
+          type: string
+        gemeente_code:
+          readOnly: true
+          type: string
+    Tabel32-read:
       type: object
       description: ''
       properties:
         id:
           readOnly: true
-          type: integer
-        name:
           type: string
-        description:
+        nationaliteitcode:
+          readOnly: true
           type: string
-        in_onderzoek: {  }
-        ingangs_datum: {  }
+        omschrijving:
+          readOnly: true
+          type: string
+        datum_ingang:
+          readOnly: true
+          description: 'A "Y-m-d" formatted value'
+          type: string
+          format: date-time
+        datum_einde:
+          readOnly: true
+          description: 'A "Y-m-d" formatted value'
+          type: string
+          format: date-time
+    Tabel33-read:
+      type: object
+      description: 'Tabel 33 bevat gemeente nummers zo als vastgesteld door'
+      properties:
+        id:
+          readOnly: true
+          type: string
+        gemeentecode:
+          readOnly: true
+          type: string
+        omschrijving:
+          readOnly: true
+          type: string
+        nieuwe_code:
+          readOnly: true
+          type: string
+        datum_einde:
+          readOnly: true
+          description: 'A "Y-m-d" formatted value'
+          type: string
+          format: date-time
+    Tabel34-read:
+      type: object
+      description: 'Landen Tabels'
+      properties:
+        id:
+          readOnly: true
+          type: string
+        landcode:
+          readOnly: true
+          type: string
+        omschrijving:
+          readOnly: true
+          type: string
+        datum_ingang:
+          readOnly: true
+          description: 'A "Y-m-d" formatted value'
+          type: string
+          format: date-time
+        datum_einde:
+          readOnly: true
+          description: 'A "Y-m-d" formatted value'
+          type: string
+          format: date-time
+        fictieve_datum_einde:
+          readOnly: true
+          description: 'A "Y-m-d" formatted value'
+          type: string
+          format: date-time
+    Tabel36-read:
+      type: object
+      description: Voorvoegsels
+      properties:
+        id:
+          readOnly: true
+          type: string
+        voorvoegsel:
+          readOnly: true
+          type: string
+    Tabel37-read:
+      type: object
+      description: ''
+      properties:
+        id:
+          readOnly: true
+          type: string
+        reden_opnemen_beeindigen_nationaliteit:
+          readOnly: true
+          type: string
+        omschrijving:
+          readOnly: true
+          type: string
+        soort:
+          readOnly: true
+          type: string
+        datum_ingang:
+          readOnly: true
+          description: 'A "Y-m-d" formatted value'
+          type: string
+          format: date-time
+        datum_einde:
+          readOnly: true
+          description: 'A "Y-m-d" formatted value'
+          type: string
+          format: date-time
+    Tabel38-read:
+      type: object
+      description: 'Adellijke titel/predikaat'
+      properties:
+        id:
+          readOnly: true
+          type: string
+        adellijke_titel_predikaat:
+          readOnly: true
+          type: string
+        omschrijving:
+          readOnly: true
+          type: string
+        soort:
+          readOnly: true
+          type: string
+    Tabel39-read:
+      type: object
+      description: Akteaanduiding
+      properties:
+        id:
+          readOnly: true
+          type: string
+        akteaanduiding:
+          readOnly: true
+          type: string
+        omschrijving:
+          readOnly: true
+          type: string
+    Tabel41-read:
+      type: object
+      description: 'Reden ontbinding/nietigverklaring huwelijk/geregistreerd partnerschap'
+      properties:
+        id:
+          readOnly: true
+          type: string
+        reden_ontbinding_nietigverklaring_huwelijk_geregistreerd_partnerschap:
+          readOnly: true
+          type: string
+        omschrijving:
+          readOnly: true
+          type: string
+        datum_ingang:
+          readOnly: true
+          description: 'A "Y-m-d" formatted value'
+          type: string
+          format: date-time
+        datum_einde:
+          readOnly: true
+          description: 'A "Y-m-d" formatted value'
+          type: string
+          format: date-time
+    Tabel48-read:
+      type: object
+      description: 'Nederlands reisdocument'
+      properties:
+        id:
+          readOnly: true
+          type: string
+        nederlands_reisdocument:
+          readOnly: true
+          type: string
+        omschrijving:
+          readOnly: true
+          type: string
+        datum_ingang:
+          readOnly: true
+          description: 'A "Y-m-d" formatted value'
+          type: string
+          format: date-time
+        datum_einde:
+          readOnly: true
+          description: 'A "Y-m-d" formatted value'
+          type: string
+          format: date-time
+    Tabel49-read:
+      type: object
+      description: 'Autoriteit van afgifte Nederlands reisdocument'
+      properties:
+        id:
+          readOnly: true
+          type: string
+        autoriteit_van_afgifte:
+          readOnly: true
+          type: string
+        omschrijving:
+          readOnly: true
+          type: string
+        datum_ingang:
+          readOnly: true
+          description: 'A "Y-m-d" formatted value'
+          type: string
+          format: date-time
+        datum_einde:
+          readOnly: true
+          description: 'A "Y-m-d" formatted value'
+          type: string
+          format: date-time
+    Tabel55-read:
+      type: object
+      description: 'PK Afnemers'
+      properties:
+        id:
+          readOnly: true
+          type: string
+        afnemersaanduiding:
+          readOnly: true
+          type: string
+        omschrijving:
+          readOnly: true
+          type: string
+    Tabel56-read:
+      type: object
+      description: Verblijfstitel
+      properties:
+        id:
+          readOnly: true
+          type: string
+        verblijfstitel:
+          readOnly: true
+          type: string
+        omschrijving:
+          readOnly: true
+          type: string
+        datum_ingang:
+          readOnly: true
+          description: 'A "Y-m-d" formatted value'
+          type: string
+          format: date-time
+        datum_einde:
+          readOnly: true
+          description: 'A "Y-m-d" formatted value'
+          type: string
+          format: date-time
   securitySchemes:
     apiKey:
       type: apiKey
