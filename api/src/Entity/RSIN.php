@@ -66,11 +66,11 @@ class RSIN
 	 * @ORM\GeneratedValue(strategy="CUSTOM")
 	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
 	 */
-	private $id;
-
-    /**   
-     * @var string 
-     * 
+    private $id;
+    
+    /**
+     * @var string
+     *
      * @ApiFilter(SearchFilter::class, strategy="exact")
      * @Groups({"read"})
      * @Assert\Length(
@@ -79,7 +79,7 @@ class RSIN
      * )
      * @ORM\Column(type="string", length=9)
      */
-	private $rsin;
+    private $rsin;
 	
 	/**
 	 * @var string
@@ -116,7 +116,7 @@ class RSIN
      * )
      * @ORM\Column(type="string", length=4)
      */
-    private $gemeenteCode;
+	private $gemeenteCode;
 
     public function getId()
     {
