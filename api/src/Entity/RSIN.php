@@ -28,26 +28,29 @@ use Doctrine\ORM\Mapping as ORM;
  *     itemOperations={
  *     		"get"={
  *     			"method"="GET", 
- *     			"path"="/rsin/uuid/{id}",
- *     			"swagger_context" = {"summary"="Haal RSIN op UUID", "description"="Beschrijving"}
+ *     			"path"="/rsin/{id}"
  *     		},
- *     		"get_on_rsin"={
+ *     		"get_on_gemeentecode"={
  *     			"method"="GET", 
- *     			"path"="/rsin/{rsin}",
- *     			"requirements"={"rsin"="\d+"}, 
+ *     			"path"="/gemeentecode/{gemeentecode}",
+ *     			"requirements"={"gemeentecode"="\d+"}, 
  *     			"swagger_context" = {
- *     				"summary"="Haal RSIN op rsin", 
+ *     				"summary"="Haal RSIN op gemeentecode", 
  *     				"description"="Beschrijving",
  *                  "parameters" = {
  *                      {
- *                          "name" = "rsin",
+ *                          "name" = "gemeentecode",
  *                          "in" = "path",
- *                          "description" = "De RSIN waarop wordt gezocht",
+ *                          "description" = "De gemeentecode waarop wordt gezocht",
  *                          "required" = "true",
  *                          "type" : "string",
  *                          "example" : "0001"
  *                      }
- *                  }
+ *                  },
+ *     				"tag"={
+ *     					"name": "RSIN",
+ *     					"description": "Human Resource Managment operations"
+ *     				} 
  *     			}
  *     		}
  *     }
@@ -55,29 +58,19 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\RSINRepository")
  */
 class RSIN
-{
-	/**
-	 * @var \Ramsey\Uuid\UuidInterface
-	 *
-	 * @Groups({"read"})
-	 * @ApiProperty(identifier=true)
-	 * @ORM\Id
-	 * @ORM\Column(type="uuid", unique=true)
-	 * @ORM\GeneratedValue(strategy="CUSTOM")
-	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-	 */
-    private $id;
-    
+{    
     /**
      * @var string
      *
      * @ApiFilter(SearchFilter::class, strategy="exact")
      * @Groups({"read"})
+	 * @ApiProperty(identifier=true)
+	 * @ORM\Id
      * @Assert\Length(
      *      max = 9,
      *      min = 9,
      * )
-     * @ORM\Column(type="string", length=9)
+     * @ORM\Column(type="string", length=9, unique=true)
      */
     private $rsin;
 	
@@ -94,17 +87,6 @@ class RSIN
 	 */
 	private $kvk;
 	
-	/**
-	 * @var string
-	 *
-	 * @Assert\Length(
-	 *      max = 9,
-	 *      min = 9,
-	 * )
-	 * @ORM\Column(type="string", length=9)
-	 */
-	private $openKvk;
-
     /**     
      * @var string 
      * 
@@ -118,9 +100,9 @@ class RSIN
      */
 	private $gemeenteCode;
 
-    public function getId()
-    {
-        return $this->id;
+	public function getId(): ?string
+	{
+		return $this->rsin;
     }
 
     public function getRSIN(): ?string
@@ -143,18 +125,6 @@ class RSIN
     public function setKVK(string $kvk): self
     {
         $this->kvk = $kvk;
-        
-        return $this;
-    }
-    
-    public function getOpenKVK(): ?string
-    {
-        return $this->openKvk;
-    }
-    
-    public function setOpenKVK(string $openKvk): self
-    {
-        $this->openKvk = $openKvk;
         
         return $this;
     }

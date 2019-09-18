@@ -49,22 +49,14 @@ class CommongroundRsinCSVCommand extends Command
         
         $io->warning('Found '.count($rsins).' RSIN numbers to export');
         
-        $csv = $this->serializer->serialize($rsins,'csv', 
-            [
-                'attributes' => [
-                    'id',
-                    'rsin',
-                    'gemeenteCode',
-                    'kvk'
-                ],
-            ]
-        );
+        $myfile = fopen('src/DataFixtures/Resources/RSIN.csv', "w") or die("Unable to open file!");
+        fwrite($myfile, '"id","rsin","gemeenteCode","kvk"'."\n");
+        foreach($rsins as $rsin){
+        	fwrite($myfile, $rsin->getId().','.$rsin->getRSIN().','.$rsin->getGemeenteCode().','.$rsin->getKVK()."\n");
+        }        
+        fclose($myfile);
         
         $io->warning('CSV Export complete');
-        
-        $myfile = fopen('src/DataFixtures/Resources/RSIN.csv', "w") or die("Unable to open file!");
-        fwrite($myfile, $csv);
-        fclose($myfile);
         
         $json = $this->serializer->serialize($rsins,'json');
         

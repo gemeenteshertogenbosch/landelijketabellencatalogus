@@ -43,12 +43,16 @@ class OpenOverheidService
             'timeout'  => 4000.0,
             // This api key needs to go into params
             //'headers' => ['ovio-api-key' => $this->params->get('common_ground.openoverheid.apikey')]
-            'headers' => ['ovio-api-key' => '07d3d36bad7b6c47a7825414032e16d9170e093ff9c06c594fd0c423cea510c6']
+            'headers' => ['ovio-api-key' => '9555d033b9cbbb51f06758280c3eb5f6e3e234acc28add4b4c09d7ee59b31420']
         ]);
     }
     
     public function getKvKForGemeente($naam)
     {
+    	// Hack-fix becouse open api wont acccept -
+    	$name = explode("-",$naam);
+    	$name = $name[0];
+    	
         // Lets first try the cach
         $item = $this->cash->getItem('openoverheid_kvk_'.md5($naam));
         if ($item->isHit()) {
@@ -56,25 +60,66 @@ class OpenOverheidService
         }
         
         // Oke so we don't have it on cash, let get it from live
-        $query = 'query='.$naam.'&queryfields[]=handelsnaam&filters[sbi]=8411';
-        $response = $this->client->request('GET','/openkvk?query=Gemeente '.$naam.'&queryfields[]=handelsnaam&fields[]=rsin&filters[sbi]=8411');
+        //$query = 'query='.$naam.'&queryfields[]=handelsnaam&filters[sbi]=8411';
+        $response = $this->client->request('GET','/openkvk?query=Gemeente '.$naam.'&queryfields[]=handelsnaam&fields[]=rsin&fields[]=subdossiernummer&filters[sbi]=8411');
         
         $response = json_decode($response->getBody(), true);
                 
-        //var_dump($response);
         //We are up to something if we only have 1 hit
-        if(array_key_exists ('_embedded', $response) && count($response['_embedded']) == 1){
+        if(array_key_exists ('_embedded', $response) && count($response['_embedded']['bedrijf']) == 1){
             
-            $item->set($response['_embedded']);
+            $item->set($response['_embedded']['bedrijf'][0]);
             $item->expiresAt(new \DateTime('tomorrow'));
             $this->cash->save($item);
             
             return $item->get();
         }
+        elseif(array_key_exists('_embedded', $response) && count($response['_embedded']['bedrijf']) > 1){
+        	foreach($response['_embedded']['bedrijf'] as $bedrijf){
+        		if(!array_key_exists('subdossiernummer', $bedrijf) && strtolower($bedrijf['handelsnaam']) == strtolower('Gemeente '.$naam )){
+        			$item->set($bedrijf);
+        			$item->expiresAt(new \DateTime('tomorrow'));
+        			$this->cash->save($item);
+        			
+        			return $item->get();
+        			
+        		}
+        	}
+        }
         //If not then we are in error
         else{
-            return false;
+        	$response = $this->client->request('GET','/openkvk?query=Gemeente '.$naam.'&queryfields[]=handelsnaam&fields[]=rsin&fields[]=subdossiernummer&exists=rsin');
+        	$response = json_decode($response->getBody(), true);
         }
+        
+        //We are up to something if we only have 1 hit
+        if(array_key_exists ('_embedded', $response) && count($response['_embedded']['bedrijf']) == 1){
+        	
+        	$item->set($response['_embedded']['bedrijf'][0]);
+        	$item->expiresAt(new \DateTime('tomorrow'));
+        	$this->cash->save($item);
+        	
+        	return $item->get();
+        }
+        elseif(array_key_exists('_embedded', $response) && count($response['_embedded']['bedrijf']) > 1){
+        	foreach($response['_embedded']['bedrijf'] as $bedrijf){
+        		if(!array_key_exists('subdossiernummer', $bedrijf) && strtolower($bedrijf['handelsnaam']) == strtolower('Gemeente '.$naam )){
+        			$item->set($bedrijf);
+        			$item->expiresAt(new \DateTime('tomorrow'));
+        			$this->cash->save($item);
+        			
+        			return $item->get();
+        			
+        		}
+        	}
+        }
+        //If not then we are in error
+        else{
+        	//$response = $this->client->request('GET','/openkvk?query=Gemeente '.$naam.'&queryfields[]=handelsnaam&fields[]=rsin&exists=rsin');
+        }
+        
+        var_dump($name);
+        return false;
             
     }
     
@@ -93,10 +138,10 @@ class OpenOverheidService
             return false;    
         }
         
+        //var_dump($response);
         $rsin = New RSIN;
-        $rsin->setRSIN($response['bedrijf'][0]['rsin']);
-        $rsin->setKVK($response['bedrijf'][0]['dossiernummer']);
-        $rsin->setOPenKVK('bla bla');
+        $rsin->setRSIN($response['rsin']);
+        $rsin->setKVK($response['dossiernummer']);
         $rsin->setGemeenteCode($tabel33->getGemeenteCode());
         
         $this->em->persist($rsin);

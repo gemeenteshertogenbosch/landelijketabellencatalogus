@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use App\Service\OpenOverheidService;
 
-class CommongroundTabel32RsinCommand extends Command
+class CommongroundTabel33RsinCommand extends Command
 {
     /**
      * @var EntityManagerInterface
@@ -48,6 +48,11 @@ class CommongroundTabel32RsinCommand extends Command
             if($tabel33->getGemeenteCode() == "0000"){
                 $io->warning('Skipped '.$tabel33->getOmschrijving().'('.$tabel33->getGemeenteCode().') becouse it is the deafult');
                 continue;
+            }
+            // Lets skip if this gemeente is onbekend
+            if($tabel33->getGemeenteCode() == "1999"){
+            	$io->warning('Skipped '.$tabel33->getOmschrijving().'('.$tabel33->getGemeenteCode().') becouse it is onbekend');
+            	continue;
             }
             // Lets skip if this gemeente is nomore
             if($tabel33->getDatumEinde()){                

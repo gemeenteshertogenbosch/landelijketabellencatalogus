@@ -78,7 +78,7 @@ class Tabel41
      * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
-	private $redenOntbindingNietigverklaringHuwelijkGeregistreerdPartnerschap;
+	private $reden;
 	
 	/**
 	 *
@@ -117,14 +117,14 @@ class Tabel41
         return $this->id;
     }
 
-    public function getRedenOntbindingNietigverklaringHuwelijkGeregistreerdPartnerschap(): ?string
+    public function getReden(): ?string
     {
-        return $this->redenOntbindingNietigverklaringHuwelijkGeregistreerdPartnerschap;
+    	return $this->reden;
     }
 
-    public function setRedenOntbindingNietigverklaringHuwelijkGeregistreerdPartnerschap(string $redenOntbindingNietigverklaringHuwelijkGeregistreerdPartnerschap): self
+    public function setReden(string $reden): self
     {
-        $this->redenOntbindingNietigverklaringHuwelijkGeregistreerdPartnerschap = $redenOntbindingNietigverklaringHuwelijkGeregistreerdPartnerschap;
+    	$this->reden= $reden;
 
         return $this;
     }

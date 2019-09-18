@@ -4,14 +4,22 @@ info:
   version: 0.0.1
   description: |
     Dit is een commonground voorbeeld applicatie 
-          
+    
+    Het Tabellen component voorziet in een implementatie strategie voor applicaties  die afhankelijk zijn van gegevens die op dit moment nog niet op commonground beschikbaar of nog niet op de manier waarop we deze beschikbaar willen hebben. Voorbeelden hiervan zijn de [RVIG Landelijke tabellen]( https://publicaties.rvig.nl/Landelijke_tabellen) en een Koppeltabel voor gemeente codes naar RSIN. 
+    
+    Het component bied hierbij de mogelijkheid om deze bronnen te benaderen en gebruiken als REST API (dus bijvoorbeeld de gemeentelijst te doorzoeken) conform de NL API strategie. Terug gegeven bronnen zijn voorzien van een URI endpoint waardoor deze gebruikt kunnen worden als bron. 
+    
+    Hierbij is het nadrukkelijk mogelijk dat deze bronnen in de toekomst binnen dit component komen te vervallen doordat  zij zichzelf ontsluiten. In dat geval zal de URI dor middel van een 301 redirect  worden doorverwezen naar de nieuwe bron. Hierdoor word continuiteit van verwijzingen geborgd.
+    
+    Uiteindelijk faciliteert het component hiermee een methode om blokerende externe dependencies terug te brengen. Door deze als het waren commonground op te trekken als koppeltabel. Hiermee is het mogelijk om implementaties inktvlek gewijs uit te voeren waarbij component voor component word overgetrokken terwijl een eventuele applicatie reeds in productie is.
+         
     
 paths:
-  '/r_s_i_ns/{id}':
+  '/gemeentecode/{gemeentecode}':
     get:
       tags:
         - RSIN
-      operationId: getRSINItem
+      operationId: get_on_gemeentecodeRSINItem
       summary: 'Retrieves a RSIN resource.'
       parameters:
         -
@@ -102,12 +110,103 @@ paths:
                   $ref: '#/components/schemas/RSIN-read'
       parameters:
         -
+          name: rsin
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'rsin[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: kvk
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'kvk[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: gemeenteCode
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'gemeenteCode[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
           name: page
           in: query
           required: false
           description: 'The collection page number'
           schema:
             type: integer
+  '/rsin/{id}':
+    get:
+      tags:
+        - RSIN
+      operationId: getRSINItem
+      summary: 'Retrieves a RSIN resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'RSIN resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RSIN-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/RSIN-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/RSIN-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RSIN-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/RSIN-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/RSIN-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/RSIN-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/RSIN-read'
+        404:
+          description: 'Resource not found'
   /tabel32:
     get:
       tags:
@@ -159,6 +258,28 @@ paths:
                 items:
                   $ref: '#/components/schemas/Tabel32-read'
       parameters:
+        -
+          name: nationaliteitcode
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'nationaliteitcode[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: omschrijving
+          in: query
+          required: false
+          schema:
+            type: string
         -
           name: page
           in: query
@@ -213,60 +334,45 @@ paths:
     get:
       tags:
         - Tabel32
-      operationId: get_on_nationaliteitcodeTabel32Collection
-      summary: 'Retrieves the collection of Tabel32 resources.'
+      operationId: get_on_codeTabel32Item
+      summary: 'Retrieves a Tabel32 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         200:
-          description: 'Tabel32 collection response'
+          description: 'Tabel32 resource response'
           content:
             application/hal+json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel32-read'
+                $ref: '#/components/schemas/Tabel32-read'
             application/ld+json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel32-read'
+                $ref: '#/components/schemas/Tabel32-read'
             application/vnd.api+json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel32-read'
+                $ref: '#/components/schemas/Tabel32-read'
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel32-read'
+                $ref: '#/components/schemas/Tabel32-read'
             application/xml:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel32-read'
+                $ref: '#/components/schemas/Tabel32-read'
             application/x-yaml:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel32-read'
+                $ref: '#/components/schemas/Tabel32-read'
             text/csv:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel32-read'
+                $ref: '#/components/schemas/Tabel32-read'
             text/html:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel32-read'
-      parameters:
-        -
-          name: page
-          in: query
-          required: false
-          description: 'The collection page number'
-          schema:
-            type: integer
+                $ref: '#/components/schemas/Tabel32-read'
+        404:
+          description: 'Resource not found'
   /tabel33:
     get:
       tags:
@@ -319,6 +425,28 @@ paths:
                   $ref: '#/components/schemas/Tabel33-read'
       parameters:
         -
+          name: gemeentecode
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'gemeentecode[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: omschrijving
+          in: query
+          required: false
+          schema:
+            type: string
+        -
           name: page
           in: query
           required: false
@@ -368,64 +496,49 @@ paths:
                 $ref: '#/components/schemas/Tabel33-read'
         404:
           description: 'Resource not found'
-  '/tabel33/{gemeentecode}':
+  '/tabel33/{code}':
     get:
       tags:
         - Tabel33
-      operationId: get_on_nationaliteitcodeTabel33Collection
-      summary: 'Retrieves the collection of Tabel33 resources.'
+      operationId: get_on_codeTabel33Item
+      summary: 'Retrieves a Tabel33 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         200:
-          description: 'Tabel33 collection response'
+          description: 'Tabel33 resource response'
           content:
             application/hal+json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel33-read'
+                $ref: '#/components/schemas/Tabel33-read'
             application/ld+json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel33-read'
+                $ref: '#/components/schemas/Tabel33-read'
             application/vnd.api+json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel33-read'
+                $ref: '#/components/schemas/Tabel33-read'
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel33-read'
+                $ref: '#/components/schemas/Tabel33-read'
             application/xml:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel33-read'
+                $ref: '#/components/schemas/Tabel33-read'
             application/x-yaml:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel33-read'
+                $ref: '#/components/schemas/Tabel33-read'
             text/csv:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel33-read'
+                $ref: '#/components/schemas/Tabel33-read'
             text/html:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel33-read'
-      parameters:
-        -
-          name: page
-          in: query
-          required: false
-          description: 'The collection page number'
-          schema:
-            type: integer
+                $ref: '#/components/schemas/Tabel33-read'
+        404:
+          description: 'Resource not found'
   /tabel34:
     get:
       tags:
@@ -478,6 +591,28 @@ paths:
                   $ref: '#/components/schemas/Tabel34-read'
       parameters:
         -
+          name: landcode
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'landcode[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: omschrijving
+          in: query
+          required: false
+          schema:
+            type: string
+        -
           name: page
           in: query
           required: false
@@ -527,64 +662,49 @@ paths:
                 $ref: '#/components/schemas/Tabel34-read'
         404:
           description: 'Resource not found'
-  '/tabel34/{landcode}':
+  '/tabel34/{code}':
     get:
       tags:
         - Tabel34
-      operationId: get_on_nationaliteitcodeTabel34Collection
-      summary: 'Retrieves the collection of Tabel34 resources.'
+      operationId: get_on_codeTabel34Item
+      summary: 'Retrieves a Tabel34 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         200:
-          description: 'Tabel34 collection response'
+          description: 'Tabel34 resource response'
           content:
             application/hal+json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel34-read'
+                $ref: '#/components/schemas/Tabel34-read'
             application/ld+json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel34-read'
+                $ref: '#/components/schemas/Tabel34-read'
             application/vnd.api+json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel34-read'
+                $ref: '#/components/schemas/Tabel34-read'
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel34-read'
+                $ref: '#/components/schemas/Tabel34-read'
             application/xml:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel34-read'
+                $ref: '#/components/schemas/Tabel34-read'
             application/x-yaml:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel34-read'
+                $ref: '#/components/schemas/Tabel34-read'
             text/csv:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel34-read'
+                $ref: '#/components/schemas/Tabel34-read'
             text/html:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Tabel34-read'
-      parameters:
-        -
-          name: page
-          in: query
-          required: false
-          description: 'The collection page number'
-          schema:
-            type: integer
+                $ref: '#/components/schemas/Tabel34-read'
+        404:
+          description: 'Resource not found'
   /tabel36:
     get:
       tags:
@@ -637,13 +757,19 @@ paths:
                   $ref: '#/components/schemas/Tabel36-read'
       parameters:
         -
+          name: voorvoegsel
+          in: query
+          required: false
+          schema:
+            type: string
+        -
           name: page
           in: query
           required: false
           description: 'The collection page number'
           schema:
             type: integer
-  '/tabel36s/{id}':
+  '/tabel36/uuid/{id}':
     get:
       tags:
         - Tabel36
@@ -738,17 +864,98 @@ paths:
                   $ref: '#/components/schemas/Tabel37-read'
       parameters:
         -
+          name: redenOpnemenBeeindigenNationaliteit
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'redenOpnemenBeeindigenNationaliteit[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: omschrijving
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: soort
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'soort[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
           name: page
           in: query
           required: false
           description: 'The collection page number'
           schema:
             type: integer
-  '/tabel37s/{id}':
+  '/tabel37/uuid/{id}':
     get:
       tags:
         - Tabel37
       operationId: getTabel37Item
+      summary: 'Retrieves a Tabel37 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Tabel37 resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tabel37-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tabel37-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tabel37-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tabel37-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tabel37-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tabel37-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tabel37-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tabel37-read'
+        404:
+          description: 'Resource not found'
+  '/tabel37/{code}':
+    get:
+      tags:
+        - Tabel37
+      operationId: get_on_codeTabel37Item
       summary: 'Retrieves a Tabel37 resource.'
       parameters:
         -
@@ -839,17 +1046,82 @@ paths:
                   $ref: '#/components/schemas/Tabel38-read'
       parameters:
         -
+          name: adellijkeTitelPredikaat
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'adellijkeTitelPredikaat[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: omschrijving
+          in: query
+          required: false
+          schema:
+            type: string
+        -
           name: page
           in: query
           required: false
           description: 'The collection page number'
           schema:
             type: integer
-  '/tabel38s/{id}':
+  '/tabel38/uuid/{id}':
     get:
       tags:
         - Tabel38
       operationId: getTabel38Item
+      summary: 'Retrieves a Tabel38 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Tabel38 resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tabel38-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tabel38-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tabel38-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tabel38-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tabel38-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tabel38-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tabel38-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tabel38-read'
+        404:
+          description: 'Resource not found'
+  '/tabel38/{code}':
+    get:
+      tags:
+        - Tabel38
+      operationId: get_on_codeTabel38Item
       summary: 'Retrieves a Tabel38 resource.'
       parameters:
         -
@@ -940,17 +1212,82 @@ paths:
                   $ref: '#/components/schemas/Tabel39-read'
       parameters:
         -
+          name: akteaanduiding
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'akteaanduiding[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: omschrijving
+          in: query
+          required: false
+          schema:
+            type: string
+        -
           name: page
           in: query
           required: false
           description: 'The collection page number'
           schema:
             type: integer
-  '/tabel39s/{id}':
+  '/tabel39/uuid/{id}':
     get:
       tags:
         - Tabel39
       operationId: getTabel39Item
+      summary: 'Retrieves a Tabel39 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Tabel39 resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tabel39-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tabel39-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tabel39-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tabel39-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tabel39-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tabel39-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tabel39-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tabel39-read'
+        404:
+          description: 'Resource not found'
+  '/tabel39/{code}':
+    get:
+      tags:
+        - Tabel39
+      operationId: get_on_codeTabel39Item
       summary: 'Retrieves a Tabel39 resource.'
       parameters:
         -
@@ -1041,17 +1378,82 @@ paths:
                   $ref: '#/components/schemas/Tabel41-read'
       parameters:
         -
+          name: reden
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'reden[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: omschrijving
+          in: query
+          required: false
+          schema:
+            type: string
+        -
           name: page
           in: query
           required: false
           description: 'The collection page number'
           schema:
             type: integer
-  '/tabel41s/{id}':
+  '/tabel41/uuid/{id}':
     get:
       tags:
         - Tabel41
       operationId: getTabel41Item
+      summary: 'Retrieves a Tabel41 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Tabel41 resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tabel41-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tabel41-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tabel41-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tabel41-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tabel41-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tabel41-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tabel41-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tabel41-read'
+        404:
+          description: 'Resource not found'
+  '/tabel42/{code}':
+    get:
+      tags:
+        - Tabel41
+      operationId: get_on_codeTabel41Item
       summary: 'Retrieves a Tabel41 resource.'
       parameters:
         -
@@ -1142,17 +1544,82 @@ paths:
                   $ref: '#/components/schemas/Tabel48-read'
       parameters:
         -
+          name: nederlandsReisdocument
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'nederlandsReisdocument[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: omschrijving
+          in: query
+          required: false
+          schema:
+            type: string
+        -
           name: page
           in: query
           required: false
           description: 'The collection page number'
           schema:
             type: integer
-  '/tabel48s/{id}':
+  '/tabel48/uuid/{id}':
     get:
       tags:
         - Tabel48
       operationId: getTabel48Item
+      summary: 'Retrieves a Tabel48 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Tabel48 resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tabel48-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tabel48-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tabel48-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tabel48-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tabel48-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tabel48-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tabel48-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tabel48-read'
+        404:
+          description: 'Resource not found'
+  '/tabel48/{code}':
+    get:
+      tags:
+        - Tabel48
+      operationId: get_on_codeTabel48Item
       summary: 'Retrieves a Tabel48 resource.'
       parameters:
         -
@@ -1243,17 +1710,82 @@ paths:
                   $ref: '#/components/schemas/Tabel49-read'
       parameters:
         -
+          name: autoriteitVanAfgifte
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'autoriteitVanAfgifte[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: omschrijving
+          in: query
+          required: false
+          schema:
+            type: string
+        -
           name: page
           in: query
           required: false
           description: 'The collection page number'
           schema:
             type: integer
-  '/tabel49s/{id}':
+  '/tabel49/uuid/{id}':
     get:
       tags:
         - Tabel49
       operationId: getTabel49Item
+      summary: 'Retrieves a Tabel49 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Tabel49 resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tabel49-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tabel49-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tabel49-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tabel49-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tabel49-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tabel49-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tabel49-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tabel49-read'
+        404:
+          description: 'Resource not found'
+  '/tabel49/{code}':
+    get:
+      tags:
+        - Tabel49
+      operationId: get_on_codeTabel49Item
       summary: 'Retrieves a Tabel49 resource.'
       parameters:
         -
@@ -1344,17 +1876,82 @@ paths:
                   $ref: '#/components/schemas/Tabel55-read'
       parameters:
         -
+          name: afnemersaanduiding
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'afnemersaanduiding[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: omschrijving
+          in: query
+          required: false
+          schema:
+            type: string
+        -
           name: page
           in: query
           required: false
           description: 'The collection page number'
           schema:
             type: integer
-  '/tabel55s/{id}':
+  '/tabel55/uuid/{id}':
     get:
       tags:
         - Tabel55
       operationId: getTabel55Item
+      summary: 'Retrieves a Tabel55 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Tabel55 resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tabel55-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tabel55-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tabel55-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tabel55-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tabel55-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tabel55-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tabel55-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tabel55-read'
+        404:
+          description: 'Resource not found'
+  '/tabel55/{code}':
+    get:
+      tags:
+        - Tabel55
+      operationId: get_on_codeTabel55Item
       summary: 'Retrieves a Tabel55 resource.'
       parameters:
         -
@@ -1445,17 +2042,82 @@ paths:
                   $ref: '#/components/schemas/Tabel56-read'
       parameters:
         -
+          name: verblijfstitel
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'verblijfstitel[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: omschrijving
+          in: query
+          required: false
+          schema:
+            type: string
+        -
           name: page
           in: query
           required: false
           description: 'The collection page number'
           schema:
             type: integer
-  '/tabel56s/{id}':
+  '/tabel56/uuid/{id}':
     get:
       tags:
         - Tabel56
       operationId: getTabel56Item
+      summary: 'Retrieves a Tabel56 resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'Tabel56 resource response'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tabel56-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Tabel56-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Tabel56-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tabel56-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Tabel56-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Tabel56-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Tabel56-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Tabel56-read'
+        404:
+          description: 'Resource not found'
+  '/tabel56/{code}':
+    get:
+      tags:
+        - Tabel56
+      operationId: get_on_codeTabel56Item
       summary: 'Retrieves a Tabel56 resource.'
       parameters:
         -
@@ -1503,16 +2165,10 @@ components:
       type: object
       description: RSIN
       properties:
-        id:
-          readOnly: true
-          type: string
         rsin:
           readOnly: true
           type: string
         kvk:
-          readOnly: true
-          type: string
-        open_kvk:
           readOnly: true
           type: string
         gemeente_code:
@@ -1520,7 +2176,7 @@ components:
           type: string
     Tabel32-read:
       type: object
-      description: ''
+      description: Nationaliteitcodes
       properties:
         id:
           readOnly: true
@@ -1543,7 +2199,7 @@ components:
           format: date-time
     Tabel33-read:
       type: object
-      description: 'Tabel 33 bevat gemeente nummers zo als vastgesteld door'
+      description: Gemeentecodes
       properties:
         id:
           readOnly: true
@@ -1602,7 +2258,7 @@ components:
           type: string
     Tabel37-read:
       type: object
-      description: ''
+      description: redenOpnemenBeeindigenNationaliteit
       properties:
         id:
           readOnly: true
@@ -1662,7 +2318,7 @@ components:
         id:
           readOnly: true
           type: string
-        reden_ontbinding_nietigverklaring_huwelijk_geregistreerd_partnerschap:
+        reden:
           readOnly: true
           type: string
         omschrijving:

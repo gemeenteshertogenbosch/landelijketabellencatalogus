@@ -5,13 +5,13 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-use App\Entity\Tabel41;
+use App\Entity\RSIN;
 
-class Tabel41Fixtures extends Fixture
+class RSINFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-    	$csv = fopen(dirname(__FILE__).'/Resources/Tabel41_Reden_ontbinding_nietigverklaring_huwelijk_geregistreerd_partnerschap.csv', 'r');
+    	$csv = fopen(dirname(__FILE__).'/Resources/RSIN.csv', 'r');
     	$i = 0;
     	
     	//var_dump(array_map("str_getcsv", file(dirname(__FILE__).'/Resources/Tabel32_Nationaliteitentabel.csv')));
@@ -25,13 +25,18 @@ class Tabel41Fixtures extends Fixture
     			continue;
     		}
     		
+    		// Lets skip empty lines
+    		if(!$line[1]){
+    			$i++;
+    			continue;
+    		}
+    		
+    		//var_dump($line);
     		// Creating the enity fro the csv values
-	    	$entity = New Tabel41();
-	    	$entity->setReden($line[0]);
-	    	$entity->setOmschrijving($line[1]);
-	    	if($line[2] && $datumIngang = date_create_from_format('Ymd', $line[2])){$entity->setDatumIngang($datumIngang);}
-	    	if($line[3] && $datumEinde = date_create_from_format('Ymd', $line[3])){$entity->setDatumEinde($datumEinde);}
-	    	
+	    	$entity = New RSIN();
+	    	$entity->setRSIN($line[1]);
+	    	$entity->setGemeenteCode($line[2]);
+	    	$entity->setKVK($line[3]);
 	    	// Persisting the enity 
 	    	$manager->persist($entity);
 	    	
