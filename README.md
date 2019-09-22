@@ -1,12 +1,12 @@
-# About this application
+# About this component
 
-Het Tabellen component voorziet in een implementatie strategie voor applicaties  die afhankelijk zijn van gegevens die op dit moment nog niet op commonground beschikbaar of nog niet op de manier waarop we deze beschikbaar willen hebben. Voorbeelden hiervan zijn de [RVIG Landelijke tabellen]( https://publicaties.rvig.nl/Landelijke_tabellen) en een Koppeltabel voor gemeente codes naar RSIN. 
+Het "Tabellen" component voorziet in een implementatiestrategie voor applicaties  die afhankelijk zijn van gegevens die op dit moment nog niet op Common Ground beschikbaar zijn, of nog niet op de manier waarop we deze beschikbaar willen hebben. Voorbeelden hiervan zijn de [RVIG Landelijke tabellen]( https://publicaties.rvig.nl/Landelijke_tabellen) en een Koppeltabel voor gemeentecodes naar RSIN. 
 
-Het component bied hierbij de mogelijkheid om deze bronnen te benaderen en gebruiken als REST API (dus bijvoorbeeld de gemeentelijst te doorzoeken) conform de NL API strategie. Terug gegeven bronnen zijn voorzien van een URI endpoint waardoor deze gebruikt kunnen worden als bron. 
+Het component biedt hierbij de mogelijkheid om deze bronnen te benaderen en te gebruiken als REST API (dus bijvoorbeeld de gemeentelijst te doorzoeken) conform de NL API strategie. Teruggegeven bronnen zijn voorzien van een URI endpoint waardoor deze gebruikt kunnen worden als bron. 
 
-Hierbij is het nadrukkelijk mogelijk dat deze bronnen in de toekomst binnen dit component komen te vervallen doordat  zij zichzelf ontsluiten. In dat geval zal de URI dor middel van een 301 redirect  worden doorverwezen naar de nieuwe bron. Hierdoor word continuïteit van verwijzingen geborgd.
+Hierbij is het nadrukkelijk mogelijk dat deze bronnen in de toekomst binnen dit component komen te vervallen doordat  zij zichzelf ontsluiten. In dat geval zal de URI door middel van een 301 redirect  worden doorverwezen naar de nieuwe bron. Hierdoor wordt continuiteit van verwijzingen geborgd.
 
-Uiteindelijk faciliteert het component hiermee een methode om blokerende externe dependencies terug te brengen. Door deze als het waren commonground op te trekken als koppeltabel. Hiermee is het mogelijk om implementaties inktvlek gewijs uit te voeren waarbij component voor component word overgetrokken terwijl een eventuele applicatie reeds in productie is.
+Uiteindelijk faciliteert het component hiermee een methode om blokkerende externe dependencies terug te brengen. Door deze als het ware Common Ground op te trekken als koppeltabel. Hiermee is het mogelijk om implementaties inktvlek gewijs uit te voeren waarbij component voor component wordt overgetrokken terwijl een eventuele applicatie reeds in productie is.
 
 ## Documentation
 
