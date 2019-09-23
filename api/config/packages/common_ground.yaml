@@ -10,11 +10,11 @@ parameters:
     common_ground.oas.servers:
             -
               description: Demo Omgeving
-              url: 'http://tabellen.zaakonline.nl/'       
+              url: 'http://tc.demo.common-ground.dev/'       
     common_ground.oas.externalDocs:
             -
               description: OAS Documentatie
-              url: 'http://tabellen.zaakonline.nl/'  
+              url: 'http://tc.demo.common-ground.dev/'  
     common_ground.oas.developers:
             -
               name: Conduction

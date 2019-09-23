@@ -1,6 +1,6 @@
 openapi: 3.0.2
 info:
-  title: 'Tabellen Component'
+  title: 'TabellenCatalogus (TC)'
   version: 0.0.1
   description: |
     Dit is een commonground voorbeeld applicatie 
@@ -19,40 +19,47 @@ paths:
     get:
       tags:
         - RSIN
-      operationId: get_on_rsinRSINItem
-      summary: 'Retrieves a RSIN resource.'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
+      operationId: getRSINCollection
+      summary: 'Retrieves the collection of RSIN resources.'
       responses:
         200:
-          description: 'RSIN resource response'
+          description: 'RSIN collection response'
           content:
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/RSIN-read'
+                type: array
+                items:
+                  $ref: '#/components/schemas/RSIN-read'
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/RSIN-read'
+                type: array
+                items:
+                  $ref: '#/components/schemas/RSIN-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/RSIN-read'
+                type: array
+                items:
+                  $ref: '#/components/schemas/RSIN-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/RSIN-read'
+                type: array
+                items:
+                  $ref: '#/components/schemas/RSIN-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/RSIN-read'
+                type: array
+                items:
+                  $ref: '#/components/schemas/RSIN-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/RSIN-read'
+                type: array
+                items:
+                  $ref: '#/components/schemas/RSIN-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/RSIN-read'
+                type: array
+                items:
+                  $ref: '#/components/schemas/RSIN-read'
             text/html:
               schema:
                 type: array
@@ -772,49 +779,6 @@ paths:
                 $ref: '#/components/schemas/Tabel37-read'
         404:
           description: 'Resource not found'
-  '/tabel37/{code}':
-    get:
-      tags:
-        - Tabel37
-      operationId: get_on_codeTabel37Item
-      summary: 'Retrieves a Tabel37 resource.'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: 'Tabel37 resource response'
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/Tabel37-read'
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Tabel37-read'
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/Tabel37-read'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tabel37-read'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Tabel37-read'
-            application/x-yaml:
-              schema:
-                $ref: '#/components/schemas/Tabel37-read'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Tabel37-read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/Tabel37-read'
-        404:
-          description: 'Resource not found'
   /tabel38:
     get:
       tags:
@@ -900,49 +864,6 @@ paths:
       tags:
         - Tabel38
       operationId: getTabel38Item
-      summary: 'Retrieves a Tabel38 resource.'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: 'Tabel38 resource response'
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/Tabel38-read'
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Tabel38-read'
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/Tabel38-read'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tabel38-read'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Tabel38-read'
-            application/x-yaml:
-              schema:
-                $ref: '#/components/schemas/Tabel38-read'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Tabel38-read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/Tabel38-read'
-        404:
-          description: 'Resource not found'
-  '/tabel38/{code}':
-    get:
-      tags:
-        - Tabel38
-      operationId: get_on_codeTabel38Item
       summary: 'Retrieves a Tabel38 resource.'
       parameters:
         -
@@ -1104,49 +1025,6 @@ paths:
                 $ref: '#/components/schemas/Tabel39-read'
         404:
           description: 'Resource not found'
-  '/tabel39/{code}':
-    get:
-      tags:
-        - Tabel39
-      operationId: get_on_codeTabel39Item
-      summary: 'Retrieves a Tabel39 resource.'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: 'Tabel39 resource response'
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/Tabel39-read'
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Tabel39-read'
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/Tabel39-read'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tabel39-read'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Tabel39-read'
-            application/x-yaml:
-              schema:
-                $ref: '#/components/schemas/Tabel39-read'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Tabel39-read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/Tabel39-read'
-        404:
-          description: 'Resource not found'
   /tabel41:
     get:
       tags:
@@ -1232,49 +1110,6 @@ paths:
       tags:
         - Tabel41
       operationId: getTabel41Item
-      summary: 'Retrieves a Tabel41 resource.'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: 'Tabel41 resource response'
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/Tabel41-read'
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Tabel41-read'
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/Tabel41-read'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tabel41-read'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Tabel41-read'
-            application/x-yaml:
-              schema:
-                $ref: '#/components/schemas/Tabel41-read'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Tabel41-read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/Tabel41-read'
-        404:
-          description: 'Resource not found'
-  '/tabel42/{code}':
-    get:
-      tags:
-        - Tabel41
-      operationId: get_on_codeTabel41Item
       summary: 'Retrieves a Tabel41 resource.'
       parameters:
         -
@@ -1436,49 +1271,6 @@ paths:
                 $ref: '#/components/schemas/Tabel48-read'
         404:
           description: 'Resource not found'
-  '/tabel48/{code}':
-    get:
-      tags:
-        - Tabel48
-      operationId: get_on_codeTabel48Item
-      summary: 'Retrieves a Tabel48 resource.'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: 'Tabel48 resource response'
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/Tabel48-read'
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Tabel48-read'
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/Tabel48-read'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tabel48-read'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Tabel48-read'
-            application/x-yaml:
-              schema:
-                $ref: '#/components/schemas/Tabel48-read'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Tabel48-read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/Tabel48-read'
-        404:
-          description: 'Resource not found'
   /tabel49:
     get:
       tags:
@@ -1564,49 +1356,6 @@ paths:
       tags:
         - Tabel49
       operationId: getTabel49Item
-      summary: 'Retrieves a Tabel49 resource.'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: 'Tabel49 resource response'
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/Tabel49-read'
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Tabel49-read'
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/Tabel49-read'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tabel49-read'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Tabel49-read'
-            application/x-yaml:
-              schema:
-                $ref: '#/components/schemas/Tabel49-read'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Tabel49-read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/Tabel49-read'
-        404:
-          description: 'Resource not found'
-  '/tabel49/{code}':
-    get:
-      tags:
-        - Tabel49
-      operationId: get_on_codeTabel49Item
       summary: 'Retrieves a Tabel49 resource.'
       parameters:
         -
@@ -1768,49 +1517,6 @@ paths:
                 $ref: '#/components/schemas/Tabel55-read'
         404:
           description: 'Resource not found'
-  '/tabel55/{code}':
-    get:
-      tags:
-        - Tabel55
-      operationId: get_on_codeTabel55Item
-      summary: 'Retrieves a Tabel55 resource.'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: 'Tabel55 resource response'
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/Tabel55-read'
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Tabel55-read'
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/Tabel55-read'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tabel55-read'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Tabel55-read'
-            application/x-yaml:
-              schema:
-                $ref: '#/components/schemas/Tabel55-read'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Tabel55-read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/Tabel55-read'
-        404:
-          description: 'Resource not found'
   /tabel56:
     get:
       tags:
@@ -1934,52 +1640,6 @@ paths:
                 $ref: '#/components/schemas/Tabel56-read'
         404:
           description: 'Resource not found'
-  '/tabel56/{code}':
-    get:
-      tags:
-        - Tabel56
-      operationId: get_on_codeTabel56Item
-      summary: 'Retrieves a Tabel56 resource.'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: 'Tabel56 resource response'
-          content:
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/Tabel56-read'
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Tabel56-read'
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/Tabel56-read'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tabel56-read'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Tabel56-read'
-            application/x-yaml:
-              schema:
-                $ref: '#/components/schemas/Tabel56-read'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Tabel56-read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/Tabel56-read'
-        404:
-          description: 'Resource not found'
-security:
-  -
-    apiKey: []
 components:
   schemas:
     RSIN-read:
@@ -2202,9 +1862,43 @@ components:
           description: 'A "Y-m-d" formatted value'
           type: string
           format: date-time
-  securitySchemes:
-    apiKey:
-      type: apiKey
-      in: header
-      description: 'Value for the Authorization header'
-      name: Authorization
+servers:
+  -
+    description: 'Demo Omgeving'
+    url: 'http://tc.demo.common-ground.dev/'
+externalDocs:
+  -
+    description: 'OAS Documentatie'
+    url: 'http://tc.demo.common-ground.dev/'
+x-commonground:
+  type: tool
+  developers:
+    -
+      name: Conduction
+      url: 'https://github.com/ConductionNL'
+      email: info@conduction.nl
+    -
+      name: 'Gemeente ''s-Hertogenbosch'
+      url: 'https://github.com/gemeenteshertogenbosch'
+      email: info@s-hertogenbosch.nl/
+  builds:
+    -
+      name: travis
+      logo: 'https://travis-ci.org/api-platform/core.svg?branch=master'
+      url: 'https://travis-ci.org/api-platform/core'
+    -
+      name: appveyor
+      logo: 'https://ci.appveyor.com/api/projects/status/grwuyprts3wdqx5l?svg=true'
+      url: 'https://ci.appveyor.com/project/dunglas/dunglasapibundle'
+    -
+      name: codecov
+      logo: 'https://codecov.io/gh/api-platform/core/branch/master/graph/badge.svg'
+      url: 'https://codecov.io/gh/api-platform/core'
+    -
+      name: SensioLabsInsight
+      logo: 'https://insight.sensiolabs.com/projects/92d78899-946c-4282-89a3-ac92344f9a93/mini.png'
+      url: 'https://insight.sensiolabs.com/projects/92d78899-946c-4282-89a3-ac92344f9a93'
+    -
+      name: 'Scrutinizer Code Quality'
+      logo: 'https://scrutinizer-ci.com/g/api-platform/core/badges/quality-score.png?b=master'
+      url: 'https://scrutinizer-ci.com/g/api-platform/core/?branch=master'
