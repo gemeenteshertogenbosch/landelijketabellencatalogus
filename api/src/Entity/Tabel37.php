@@ -26,27 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     itemOperations={
  *     		"get"={
  *     			"method"="GET", 
- *     			"path"="/tabel37/uuid/{id}",
- *     			"swagger_context" = {"summary"="Haal redenOpnemenBeeindigenNationaliteit op UUID", "description"="Beschrijving"}
- *     		},
- *     		"get_on_code"={
- *     			"method"="GET", 
- *     			"path"="/tabel37/{code}",
- *     			"requirements"={"code"="\d+"}, 
- *     			"swagger_context" = {
- *     				"summary"="Haal redenOpnemenBeeindigenNationaliteit op code", 
- *     				"description"="Beschrijving",
- *                  "parameters" = {
- *                      {
- *                          "name" = "code",
- *                          "in" = "path",
- *                          "description" = "De redenOpnemenBeeindigenNationaliteitcode waarop wordt gezocht",
- *                          "required" = "true",
- *                          "type" : "string",
- *                          "example" : "0001"
- *                      }
- *                  }
- *     			}
+ *     			"path"="/tabel37/{reden}"
  *     		}
  *     }
  * )
@@ -54,31 +34,22 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tabel37
 {
-	/**
-	 * @var \Ramsey\Uuid\UuidInterface
-	 *
-	 * @Groups({"read"})
-	 * @ApiProperty(identifier=true)
-	 * @ORM\Id
-	 * @ORM\Column(type="uuid", unique=true)
-	 * @ORM\GeneratedValue(strategy="CUSTOM")
-	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-	 */
-	private $id;
 	
     /**
      * 
-     * @var string 
+     * @var string redenOpnemenBeeindigenNationaliteit
      * 
      * @ApiFilter(SearchFilter::class, strategy="exact")
      * @Groups({"read"})
+	 * @ApiProperty(identifier=true)
+	 * @ORM\Id
      * @Assert\Length(
      *      max = 255,
      * )
      * @Assert\NotBlank
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
-	private $redenOpnemenBeeindigenNationaliteit;
+	private $reden;
 	
 	/**
 	 *
@@ -126,19 +97,19 @@ class Tabel37
      */
     private $datumEinde;
 
-    public function getId()
+    public function getId(): ?string
     {
         return $this->id;
     }
 
-    public function getRedenOpnemenBeeindigenNationaliteit(): ?string
+    public function getReden(): ?string
     {
-        return $this->redenOpnemenBeeindigenNationaliteit;
+        return $this->reden;
     }
 
-    public function setRedenOpnemenBeeindigenNationaliteit(string $redenOpnemenBeeindigenNationaliteit): self
+    public function setReden(string $reden): self
     {
-        $this->redenOpnemenBeeindigenNationaliteit = $redenOpnemenBeeindigenNationaliteit;
+        $this->reden = $reden;
 
         return $this;
     }

@@ -26,27 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     itemOperations={
  *     		"get"={
  *     			"method"="GET", 
- *     			"path"="/tabel49/uuid/{id}",
- *     			"swagger_context" = {"summary"="Haal Autoriteit van afgifte Nederlands reisdocument op UUID", "description"="Beschrijving"}
- *     		},
- *     		"get_on_code"={
- *     			"method"="GET", 
- *     			"path"="/tabel49/{code}",
- *     			"requirements"={"code"="\d+"}, 
- *     			"swagger_context" = {
- *     				"summary"="Haal Autoriteit van afgifte Nederlands reisdocument  op code", 
- *     				"description"="Beschrijving",
- *                  "parameters" = {
- *                      {
- *                          "name" = "code",
- *                          "in" = "path",
- *                          "description" = "De Autoriteit van afgifte Nederlands reisdocument code waarop wordt gezocht",
- *                          "required" = "true",
- *                          "type" : "string",
- *                          "example" : "0001"
- *                      }
- *                  }
- *     			}
+ *     			"path"="/tabel49/{autoriteitVanAfgifte}"
  *     		}
  *     }
  * )
@@ -54,17 +34,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tabel49
 {
-	/**
-	 * @var \Ramsey\Uuid\UuidInterface
-	 *
-	 * @Groups({"read"})
-	 * @ApiProperty(identifier=true)
-	 * @ORM\Id
-	 * @ORM\Column(type="uuid", unique=true)
-	 * @ORM\GeneratedValue(strategy="CUSTOM")
-	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-	 */
-	private $id;
 	
     /**
      * 
@@ -72,11 +41,13 @@ class Tabel49
      * 
      * @ApiFilter(SearchFilter::class, strategy="exact")
      * @Groups({"read"})
+	 * @ApiProperty(identifier=true)
+	 * @ORM\Id
      * @Assert\Length(
      *      max = 255,
      * )
      * @Assert\NotBlank
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
 	private $autoriteitVanAfgifte;
 	
@@ -112,7 +83,7 @@ class Tabel49
      */
     private $datumEinde;
 
-    public function getId()
+    public function getId(): ?string
     {
         return $this->id;
     }

@@ -28,30 +28,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     itemOperations={
  *     		"get"={
  *     			"method"="GET", 
- *     			"path"="/rsin/{id}"
- *     		},
- *     		"get_on_gemeentecode"={
- *     			"method"="GET", 
- *     			"path"="/gemeentecode/{gemeentecode}",
- *     			"requirements"={"gemeentecode"="\d+"}, 
- *     			"swagger_context" = {
- *     				"summary"="Haal RSIN op gemeentecode", 
- *     				"description"="Beschrijving",
- *                  "parameters" = {
- *                      {
- *                          "name" = "gemeentecode",
- *                          "in" = "path",
- *                          "description" = "De gemeentecode waarop wordt gezocht",
- *                          "required" = "true",
- *                          "type" : "string",
- *                          "example" : "0001"
- *                      }
- *                  },
- *     				"tag"={
- *     					"name": "RSIN",
- *     					"description": "Human Resource Managment operations"
- *     				} 
- *     			}
+ *     			"path"="/rsin/{rsin}"
  *     		}
  *     }
  * )

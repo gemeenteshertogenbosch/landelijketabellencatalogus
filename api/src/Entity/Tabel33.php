@@ -26,58 +26,28 @@ use Doctrine\ORM\Mapping as ORM;
  *     itemOperations={
  *     		"get"={
  *     			"method"="GET", 
- *     			"path"="/tabel33/uuid/{id}",
- *     			"swagger_context" = {"summary"="Haal Gemeente op UUID", "description"="Beschrijving"}
- *     		},
- *     		"get_on_code"={
- *     			"method"="GET", 
- *     			"path"="/tabel33/{code}",
- *     			"requirements"={"code"="\d+"}, 
- *     			"swagger_context" = {
- *     				"summary"="Haal Gemeente op code", 
- *     				"description"="Beschrijving",
- *                  "parameters" = {
- *                      {
- *                          "name" = "code",
- *                          "in" = "path",
- *                          "description" = "De Gemeentecode waarop wordt gezocht",
- *                          "required" = "true",
- *                          "type" : "string",
- *                          "example" : "0001"
- *                      }
- *                  }
- *     			}
+ *     			"path"="/tabel33/{gemeentecodes}"
  *     		}
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\Tabel33Repository")
  */
 class Tabel33
-{
-	/**
-	 * @var \Ramsey\Uuid\UuidInterface
-	 *
-	 * @Groups({"read"})
-	 * @ApiProperty(identifier=true)
-	 * @ORM\Id
-	 * @ORM\Column(type="uuid", unique=true)
-	 * @ORM\GeneratedValue(strategy="CUSTOM")
-	 * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-	 */
-	private $id;
-	
+{	
     /**
      * 
      * @var string 
      * 
      * @ApiFilter(SearchFilter::class, strategy="exact")
      * @Groups({"read"})
+	 * @ApiProperty(identifier=true)
+	 * @ORM\Id
      * @Assert\Length(
      *      min = 4,
      *      max = 4,
      * )
      * @Assert\NotBlank
-     * @ORM\Column(type="string", length=4)
+     * @ORM\Column(type="string", length=4, unique=true)
      */
 	private $gemeentecode;
 
@@ -126,7 +96,7 @@ class Tabel33
      */
     private $datumEinde;
 
-    public function getId()
+    public function getId(): ?string
     {
         return $this->id;
     }
